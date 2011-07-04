@@ -10,30 +10,17 @@ Gem::Specification.new do |s|
   s.date = %q{2009-10-09}
   s.default_executable = %q{spec_converter}
   s.email = %q{rsanheim@gmail.com}
-  s.executables = ["spec_converter"]
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
-  s.files = [
-    ".gitignore",
-     "CHANGELOG",
-     "Manifest",
-     "README.rdoc",
-     "Rakefile",
-     "VERSION",
-     "bin/spec_converter",
-     "examples/spec_converter_example.rb",
-     "lib/spec_converter.rb",
-     "spec_converter.gemspec"
-  ]
+  s.files         = `git ls-files`.split("\n")
   s.homepage = %q{http://github.com/relevance/spec_converter}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Convert your tests to test/spec specs.  See http://github.com/relevance/spec_converter/ for details.}
-  s.test_files = [
-    "examples/spec_converter_example.rb"
-  ]
+  s.test_files    = `git ls-files -- {examples,test,spec,features}/*`.split("\n")
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
