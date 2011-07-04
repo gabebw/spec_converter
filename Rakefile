@@ -28,7 +28,7 @@ Micronaut::RakeTask.new(:rcov) do |examples|
   examples.rcov = true
 end
 
-task :default => [:check_dependencies, :examples]
+task :default => [:examples]
 
 begin
   %w{sdoc sdoc-helpers rdiscount}.each { |name| gem name }

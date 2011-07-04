@@ -4,7 +4,7 @@ require 'micronaut'
 require 'mocha'
 require 'tempfile'
 
-require File.dirname(__FILE__) + '/../lib/spec_converter'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'spec_converter'))
 
 Micronaut.configure do |config|
   config.mock_with :mocha
