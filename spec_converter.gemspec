@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {examples,test,spec,features}/*`.split("\n")
 
   s.add_development_dependency(%q<mocha>, [">= 0.9.0"])
-  s.add_development_dependency(%q<micronaut>, [">= 0.3.0"])
+  s.add_development_dependency(%q<rspec>, ["~> 2.6.0"])
   s.add_development_dependency('sdoc')
   s.add_development_dependency('sdoc-helpers')
   s.add_development_dependency('rdiscount')

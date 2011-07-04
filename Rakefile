@@ -1,18 +1,12 @@
 require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
 
-require 'micronaut/rake_task'
-Micronaut::RakeTask.new(:examples) do |examples|
-  examples.pattern = 'examples/**/*_example.rb'
-  examples.ruby_opts << '-Ilib -Iexamples'
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = "spec/**/*_spec.rb"
+  t.rspec_opts = "--format progress"
 end
 
-Micronaut::RakeTask.new(:rcov) do |examples|
-  examples.pattern = 'examples/**/*_example.rb'
-  examples.rcov_opts = '-Ilib -Iexamples'
-  examples.rcov = true
-end
-
-task :default => [:examples]
+task :default => [:spec]
 
 begin
   %w{sdoc sdoc-helpers rdiscount}.each { |name| gem name }
