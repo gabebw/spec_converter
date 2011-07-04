@@ -22,28 +22,9 @@ Gem::Specification.new do |s|
   s.summary = %q{Convert your tests to test/spec specs.  See http://github.com/relevance/spec_converter/ for details.}
   s.test_files    = `git ls-files -- {examples,test,spec,features}/*`.split("\n")
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
-
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<mocha>, [">= 0.9.0"])
-      s.add_development_dependency(%q<micronaut>, [">= 0.3.0"])
-      s.add_development_dependency('sdoc')
-      s.add_development_dependency('sdoc-helpers')
-      s.add_development_dependency('rdiscount')
-    else
-      s.add_dependency(%q<mocha>, [">= 0.9.0"])
-      s.add_dependency(%q<micronaut>, [">= 0.3.0"])
-      s.add_dependency('sdoc')
-      s.add_dependency('sdoc-helpers')
-      s.add_dependency('rdiscount')
-    end
-  else
-    s.add_dependency(%q<mocha>, [">= 0.9.0"])
-    s.add_dependency(%q<micronaut>, [">= 0.3.0"])
-    s.add_dependency('sdoc')
-    s.add_dependency('sdoc-helpers')
-    s.add_dependency('rdiscount')
-  end
+  s.add_development_dependency(%q<mocha>, [">= 0.9.0"])
+  s.add_development_dependency(%q<micronaut>, [">= 0.3.0"])
+  s.add_development_dependency('sdoc')
+  s.add_development_dependency('sdoc-helpers')
+  s.add_development_dependency('rdiscount')
 end
