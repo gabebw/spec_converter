@@ -1,20 +1,4 @@
-require 'rake'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "spec_converter"
-    gem.summary = "Convert your tests to test/spec specs.  See http://github.com/relevance/spec_converter/ for details."
-    gem.email = "rsanheim@gmail.com"
-    gem.homepage = "http://github.com/relevance/spec_converter"
-    gem.authors = ["Relevance"]
-    gem.add_development_dependency "mocha", ">= 0.9.0"
-    gem.add_development_dependency "micronaut", ">= 0.3.0"
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
-end
+require 'bundler/gem_tasks'
 
 require 'micronaut/rake_task'
 Micronaut::RakeTask.new(:examples) do |examples|
