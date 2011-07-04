@@ -42,12 +42,21 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<mocha>, [">= 0.9.0"])
       s.add_development_dependency(%q<micronaut>, [">= 0.3.0"])
+      s.add_development_dependency('sdoc')
+      s.add_development_dependency('sdoc-helpers')
+      s.add_development_dependency('rdiscount')
     else
       s.add_dependency(%q<mocha>, [">= 0.9.0"])
       s.add_dependency(%q<micronaut>, [">= 0.3.0"])
+      s.add_dependency('sdoc')
+      s.add_dependency('sdoc-helpers')
+      s.add_dependency('rdiscount')
     end
   else
     s.add_dependency(%q<mocha>, [">= 0.9.0"])
     s.add_dependency(%q<micronaut>, [">= 0.3.0"])
+    s.add_dependency('sdoc')
+    s.add_dependency('sdoc-helpers')
+    s.add_dependency('rdiscount')
   end
 end

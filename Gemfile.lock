@@ -6,8 +6,16 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    json (1.5.3)
     micronaut (0.3.0)
     mocha (0.9.12)
+    rdiscount (1.6.8)
+    rdoc (2.4.3)
+    sdoc (0.2.20)
+      json (>= 1.1.3)
+      rdoc (= 2.4.3)
+    sdoc-helpers (0.1.4)
+      sdoc (~> 0.2)
 
 PLATFORMS
   ruby
@@ -15,4 +23,7 @@ PLATFORMS
 DEPENDENCIES
   micronaut (>= 0.3.0)
   mocha (>= 0.9.0)
+  rdiscount
+  sdoc
+  sdoc-helpers
   spec_converter!
