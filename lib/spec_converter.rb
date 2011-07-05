@@ -97,7 +97,7 @@ class SpecConverter
 
     # assert_match /abc123/
     # assert_match %r{abc123}
-    ['/.+/', '%r{.+}'].each do |pattern|
+    ['/.+/', '%r\{.+\}'].each do |pattern|
       line.gsub!(/^assert_match\s+(#{pattern})\s*,\s*([^\s]+)#{message_regex}$/,
                '\2.should =~ \1\3')
     end
