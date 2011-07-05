@@ -88,24 +88,35 @@ class SpecConverter
   end
 
   def convert_assert(line)
-    line.gsub!(/^assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)$/,
-               '\1.should \2 \3' )
-    line.gsub!(/^assert\s+\!(.*)$/,
-               '\1.should_not be' )
-    line.gsub!(/^assert_not_nil\s+(.*)$/,
-               '\1.should_not be_nil' )
-    line.gsub!(/^assert\s+(.*)$/,
-               '\1.should be' )
-    line.gsub!(/^assert_(nil|true|false)\s+(.*)$/,
-               '\2.should be_\1' )
-    line.gsub!(/^assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)(,\s*(?:['"]|%[Qq]).+)?$/,
-               '\2.should == \1\3' )
+    message_regex = /(,\s*(?:['"]|%[Qq]).+)?/
 
-    line.gsub!(/^assert_kind_of\s+([^\s]+),\s*([^,"]+)(,\s*(?:['"]|%[Qq]).+)?$/,
+    line.gsub!(/^assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)#{message_regex}$/,
+               '\1.should \2 \3\4')
+
+    line.gsub!(/^assert\s+([^!]+)\.([^\s]+)\?#{message_regex}?$/,
+               '\1.should be_\2\3')
+
+    line.gsub!(/^assert\s+!\s*([^!]+)\.([^\s]+)\?#{message_regex}?$/,
+               '\1.should_not be_\2\3')
+
+
+    line.gsub!(/^assert_not_nil\s+(.*)#{message_regex}$/,
+               '\1.should_not be_nil\2')
+
+    line.gsub!(/^assert_(nil|true|false|valid)\s+(.*)#{message_regex}$/,
+               '\2.should be_\1\3' )
+
+    line.gsub!(/^assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)#{message_regex}$/,
+               '\2.should == \1\3')
+
+    line.gsub!(/^assert_kind_of\s+([^\s]+),\s*([^,"]+)#{message_regex}$/,
                '\2.should be_a_kind_of \1\3' )
 
-    line.gsub!(/^assert_valid\s+([^\s]+)(,\s*(?:['"]|%[Qq]).+)?$/,
-               '\1.should be_valid\2' )
+    line.gsub!(/^assert\s+([^!]*)#{message_regex}$/,
+               '\1.should be\2' )
+
+    line.gsub!(/^assert\s+\!(.*)#{message_regex}$/,
+               '\1.should_not be\2' )
 
     line
   end

@@ -135,6 +135,11 @@ describe SpecConverter, "#convert_assert" do
     converter.convert_assert(%[assert !foo]).should == %[foo.should_not be]
   end
 
+  it "converts foo.question? to foo.should be_question" do
+    converter.convert_assert(%[assert !subscription.valid?]).should == %[subscription.should_not be_valid]
+    converter.convert_assert(%[assert subscription.valid?]).should == %[subscription.should be_valid]
+  end
+
   it "replaces assert_equal with 'should =='" do
     converter.convert_assert(%[assert_equal "$1,490.00", x["price"]\n]).should == %[x["price"].should == "$1,490.00"\n]
   end
