@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require 'spec_converter'
+require 'spec_converter/version'
 
 Gem::Specification.new do |s|
   s.name               = %q{spec_converter}

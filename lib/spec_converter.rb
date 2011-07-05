@@ -4,9 +4,8 @@
 require 'shoulda/matchers/active_record'
 
 class SpecConverter
-  VERSION = "0.5.3"
-
   RE_SHOULDA_ACTIVE_RECORD = /#{Shoulda::Matchers::ActiveRecord.instance_methods.map{|m| m.to_s}.join('|')}/o
+  RE_MESSAGE = /(,\s*(?:['"]|%[Qq]).+)?/
 
   def self.start
     spec_converter = SpecConverter.new
