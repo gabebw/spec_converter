@@ -174,3 +174,29 @@ describe SpecConverter, "#convert_line" do
     converter.should respond_to :convert_line
   end
 end
+
+describe SpecConverter, "#convert_shoulda_active_record" do
+  let(:converter){ SpecConverter.new }
+
+  %w{allow_value
+     ensure_length_of
+     ensure_inclusion_of
+     validate_presence_of
+     validate_format_of
+     validate_uniqueness_of
+     validate_acceptance_of
+     validate_numericality_of
+     belong_to
+     have_many
+     have_one
+     have_and_belong_to_many
+     have_db_column
+     have_db_index
+     have_readonly_attribute
+     allow_mass_assignment_of}.each do |ar_matcher|
+       it "converts #{ar_matcher}" do
+         result = converter.convert_shoulda_active_record("should #{ar_matcher}(:blerg).with('hello')")
+         result.should == "it { should #{ar_matcher}(:blerg).with('hello') }"
+       end
+     end
+end

@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files   = ["README.rdoc"]
   s.rdoc_options       = ["--charset = UTF-8"]
 
+  s.add_dependency('shoulda-matchers')
+
   s.add_development_dependency(%q<mocha>, [">= 0.9.0"])
   s.add_development_dependency(%q<rspec>, ["~> 2.6.0"])
   s.add_development_dependency('sdoc')

@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     spec_converter (0.5.3)
+      shoulda-matchers
 
 GEM
   remote: http://rubygems.org/
@@ -24,6 +25,7 @@ GEM
       rdoc (= 2.4.3)
     sdoc-helpers (0.1.4)
       sdoc (~> 0.2)
+    shoulda-matchers (1.0.0.beta2)
 
 PLATFORMS
   ruby

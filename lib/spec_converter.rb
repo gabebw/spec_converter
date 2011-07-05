@@ -1,7 +1,12 @@
 # Simple converter to go to test/spec style
 # This will change all files in place, so make sure you are properly backed up and/or committed to SVN!
+
+require 'shoulda/matchers/active_record'
+
 class SpecConverter
   VERSION = "0.5.3"
+
+  RE_SHOULDA_ACTIVE_RECORD = /#{Shoulda::Matchers::ActiveRecord.instance_methods.map{|m| m.to_s}.join('|')}/o
 
   def self.start
     spec_converter = SpecConverter.new
@@ -42,6 +47,7 @@ class SpecConverter
     new_line = convert_test_unit_methods(new_line)
     new_line = convert_def_setup(new_line)
     new_line = convert_assert(new_line)
+    new_line = convert_shoulda_active_record(new_line)
 
     leading_space + new_line
   end
@@ -95,6 +101,8 @@ class SpecConverter
     line
   end
 
-  def convert_shoulda(line)
+  def convert_shoulda_active_record(line)
+    line.gsub!(/^(should #{RE_SHOULDA_ACTIVE_RECORD}.*)$/, 'it { \1 }')
+    line
   end
 end
