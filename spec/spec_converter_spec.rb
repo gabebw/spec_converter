@@ -135,9 +135,16 @@ describe SpecConverter, "#convert_assert" do
     converter.convert_assert(%[assert !foo]).should == %[foo.should_not be]
   end
 
-  it "converts foo.question? to foo.should be_question" do
+  it "converts foo.question? without args to be_question" do
     converter.convert_assert(%[assert !subscription.question?]).should == %[subscription.should_not be_question]
     converter.convert_assert(%[assert subscription.question?]).should == %[subscription.should be_question]
+  end
+
+  it "converts foo.question? with args to a version that preserves args" do
+    converter.convert_assert(%[assert !subscription.question?(one)]).should ==
+      %[subscription.question?(one).should_not be]
+    converter.convert_assert(%[assert subscription.question?(one)]).should ==
+      %[subscription.question?(one).should be]
   end
 
   it "replaces assert_equal with 'should =='" do
