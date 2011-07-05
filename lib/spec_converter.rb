@@ -128,7 +128,7 @@ class SpecConverter
     line.gsub!(/^assert_kind_of\s+([^\s]+),\s*([^,"]+)#{message_regex}$/,
                '\2.should be_a_kind_of \1\3' )
 
-    line.gsub!(/^assert\s+([^!]*)#{message_regex}$/,
+    line.gsub!(/^assert\s+([^!][^\s]+)#{message_regex}$/,
                '\1.should be\2' )
 
     line.gsub!(/^assert\s+\!(.*)#{message_regex}$/,

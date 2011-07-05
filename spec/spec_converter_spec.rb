@@ -204,6 +204,11 @@ describe SpecConverter, "#convert_assert" do
     regex = 'http://.*\.example\.com/[0-9]+'
     converter.convert_assert(%[assert_match %r{#{regex}}, text]).should == %[text.should =~ %r{#{regex}}]
   end
+
+  it "handles assert with odd punctuation" do
+    input = %[assert thing.respond_to?(:method!), "message"]
+    converter.convert_assert(input).should == %[thing.respond_to?(:method!).should be, "message"]
+  end
 end
 
 describe SpecConverter, "#convert_line" do
