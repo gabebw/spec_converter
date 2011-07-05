@@ -11,7 +11,9 @@ class SpecConverter
   # Convert tests from old spec style to new style -- assumes you are in your project root and globs all tests
   # in your test directory.
   def convert
-    raise "No test diretory - you must run this script from your project root, which should also contain a test directory." unless File.directory?("test")
+    unless File.directory?("test")
+      raise "No ./test directory! Must be run from project root, which must contain /test."
+    end
     tests = Dir.glob('test/**/*_test.rb')
     tests.each do |test_file|
       translate_file(test_file)
