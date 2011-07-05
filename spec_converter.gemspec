@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+require 'spec_converter'
 
 Gem::Specification.new do |s|
   s.name               = %q{spec_converter}
-  s.version            = "0.5.3"
+  s.version            = SpecConverter::VERSION
   s.authors            = ["Relevance"]
   s.date               = %q{2009-10-09}
   s.email              = %q{rsanheim@gmail.com}
