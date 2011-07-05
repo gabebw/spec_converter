@@ -40,8 +40,6 @@ class SpecConverter
     line
   end
 
-  private
-
   def convert_def_setup(line)
     line.gsub!(/(^\s*)def setup(\s*)$/, '\1before do\2')
   end
