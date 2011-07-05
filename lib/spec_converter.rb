@@ -47,13 +47,12 @@ class SpecConverter
   end
 
   def convert_rspec_old_style_names(line)
-    line.gsub!(/(^\s*)context(\s.*do)/, '\1describe\2')
     line.gsub!(/(^\s*)specify(\s.*do)/, '\1it\2')
   end
 
   def convert_test_unit_class_name(line)
-    line.gsub!(/^class\s*([\w:]+)Test\s*<\s*Test::Unit::TestCase/, 'describe "\1" do')
-    line.gsub!(/^class\s*([\w:]+)Test\s*<\s*(ActiveSupport|ActionController)::(IntegrationTest|TestCase)/, 'describe "\1", \2::\3 do')
+    line.gsub!(/^class\s*([\w:]+)Test\s*<\s*Test::Unit::TestCase/, 'describe \1 do')
+    line.gsub!(/^class\s*([\w:]+)Test\s*<\s*(ActiveSupport|ActionController)::(IntegrationTest|TestCase)/, 'describe \1 do')
   end
 
   def convert_test_unit_methods(line)
@@ -65,10 +64,18 @@ class SpecConverter
   end
 
   def convert_assert(line)
-    line.gsub!(/(^\s*)assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)$/, '\1\2.should \3 \4' )
-    line.gsub!(/(^\s*)assert\s+\!(.*)$/, '\1\2.should.not == true' )
-    line.gsub!(/(^\s*)assert(_not_nil){0,1}\s+(.*)$/, '\1\3.should.not == nil' )
-    line.gsub!(/(^\s*)assert_(nil|true|false)\s+(.*)$/, '\1\3.should == \2' )
-    line.gsub!(/(^\s*)assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)$/, '\1\3.should == \2' )
+    converted_line = line.dup
+    leading_space = converted_line.slice!(/^\s*/)
+
+    converted_line.gsub!(/assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)$/,
+                         '\1.should \2 \3' )
+    converted_line.gsub!(/assert\s+\!(.*)$/, '\1.should_not be' )
+    converted_line.gsub!(/assert_not_nil\s+(.*)$/, '\1.should_not be_nil' )
+    converted_line.gsub!(/assert\s+(.*)$/, '\1.should be' )
+    converted_line.gsub!(/assert_(nil|true|false)\s+(.*)$/,
+                         '\2.should be_\1' )
+    converted_line.gsub!(/assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)(,\s*(?:['"]|%[Qq]).+)?$/,
+                         '\2.should == \1\3' )
+    line.replace(leading_space + converted_line)
   end
 end
