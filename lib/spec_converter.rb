@@ -95,6 +95,14 @@ class SpecConverter
     line.gsub!(/^assert_in_delta\s+([^\s]*)\s*,\s*([^\s]+)\s*,\s*([^\s]+)#{message_regex}$/,
                '\2.should be_within(\3).of(\1)\4')
 
+    # assert_match /abc123/
+    # assert_match %r{abc123}
+    ['/.+/', '%r{.+}'].each do |pattern|
+      line.gsub!(/^assert_match\s+(#{pattern})\s*,\s*([^\s]+)#{message_regex}$/,
+               '\2.should =~ \1\3')
+    end
+
+
     line.gsub!(/^assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)#{message_regex}$/,
                '\1.should \2 \3\4')
 

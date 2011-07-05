@@ -194,6 +194,16 @@ describe SpecConverter, "#convert_assert" do
   it "replaces assert_in_delta with 'should be_within'" do
     converter.convert_assert(%[assert_in_delta @time.created_at, @time.ends_at, 1.minute]).should == %[@time.ends_at.should be_within(1.minute).of(@time.created_at)]
   end
+
+  it "replaces assert_match /.../ with 'should =~ '" do
+    regex = 'http:\/\/.*\.example\.com\/[0-9]+'
+    converter.convert_assert(%[assert_match /#{regex}/, text]).should == %[text.should =~ /#{regex}/]
+  end
+
+  it "replaces assert_match %r{...} with 'should =~ '" do
+    regex = 'http://.*\.example\.com/[0-9]+'
+    converter.convert_assert(%[assert_match %r{#{regex}}, text]).should == %[text.should =~ %r{#{regex}}]
+  end
 end
 
 describe SpecConverter, "#convert_line" do
