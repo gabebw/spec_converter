@@ -190,6 +190,10 @@ describe SpecConverter, "#convert_assert" do
   it "replaces assert_valid with 'should be_valid'" do
     converter.convert_assert(%[assert_valid @subscription]).should == %[@subscription.should be_valid]
   end
+
+  it "replaces assert_in_delta with 'should be_within'" do
+    converter.convert_assert(%[assert_in_delta @time.created_at, @time.ends_at, 1.minute]).should == %[@time.ends_at.should be_within(1.minute).of(@time.created_at)]
+  end
 end
 
 describe SpecConverter, "#convert_line" do

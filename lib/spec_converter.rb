@@ -92,6 +92,9 @@ class SpecConverter
   def convert_assert(line)
     message_regex = /(,\s*(?:['"]|%[Qq]).+)?/
 
+    line.gsub!(/^assert_in_delta\s+([^\s]*)\s*,\s*([^\s]+)\s*,\s*([^\s]+)#{message_regex}$/,
+               '\2.should be_within(\3).of(\1)\4')
+
     line.gsub!(/^assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)#{message_regex}$/,
                '\1.should \2 \3\4')
 
