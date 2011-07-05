@@ -136,8 +136,8 @@ describe SpecConverter, "#convert_assert" do
   end
 
   it "converts foo.question? to foo.should be_question" do
-    converter.convert_assert(%[assert !subscription.valid?]).should == %[subscription.should_not be_valid]
-    converter.convert_assert(%[assert subscription.valid?]).should == %[subscription.should be_valid]
+    converter.convert_assert(%[assert !subscription.question?]).should == %[subscription.should_not be_question]
+    converter.convert_assert(%[assert subscription.question?]).should == %[subscription.should be_question]
   end
 
   it "replaces assert_equal with 'should =='" do
@@ -231,5 +231,24 @@ describe SpecConverter, "#convert_shoulda_setup" do
   it "converts a multiline setup block using do...end to a before block" do
     result = converter.convert_shoulda_setup("setup do")
     result.should == "before do"
+  end
+end
+
+describe SpecConverter, "#convert_shoulda_block" do
+  let(:converter){ SpecConverter.new }
+
+  it "converts shoulda blocks to it blocks" do
+    result = converter.convert_shoulda_block(%q{should "create a record" do})
+    result.should == %q{it "should create a record" do}
+  end
+
+  it "handles single-quoted descriptions" do
+    result = converter.convert_shoulda_block(%q{should 'create "a" record' do})
+    result.should == %q{it 'should create "a" record' do}
+  end
+
+  it "ignores ActiveRecord matchers" do
+    input = "should validate_presence_of(:name)"
+    converter.convert_shoulda_block(input).should == input
   end
 end

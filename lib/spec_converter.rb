@@ -49,6 +49,8 @@ class SpecConverter
     new_line = convert_assert(new_line)
 
     # Shoulda
+    # convert_shoulda_block must be first!
+    new_line = convert_shoulda_block(new_line)
     new_line = convert_shoulda_active_record(new_line)
     new_line = convert_shoulda_setup(new_line)
 
@@ -128,6 +130,11 @@ class SpecConverter
 
   def convert_shoulda_setup(line)
     line.gsub!(/^setup (\{|do)/, 'before \1')
+    line
+  end
+
+  def convert_shoulda_block(line)
+    line.gsub!(/^should\s+(['"])(.+)\1\s+(\{|do)/, 'it \1should \2\1 \3')
     line
   end
 end
