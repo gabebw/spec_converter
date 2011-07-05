@@ -170,6 +170,10 @@ describe SpecConverter, "#convert_assert" do
   it "replaces assert_kind_of with 'should be_a_kind_of'" do
     converter.convert_assert(%[assert_kind_of Hash, foo, "No options given"]).should == %[foo.should be_a_kind_of Hash, "No options given"]
   end
+
+  it "replaces assert_valid with 'should be_valid'" do
+    converter.convert_assert(%[assert_valid @subscription]).should == %[@subscription.should be_valid]
+  end
 end
 
 describe SpecConverter, "#convert_line" do
