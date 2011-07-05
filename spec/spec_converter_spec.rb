@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe SpecConverter, ".start" do
   it "creates an instance and calls convert" do
-    SpecConverter.expects(:new).returns(converter = stub)
+    converter = stub
+    SpecConverter.expects(:new).returns(converter)
     converter.expects(:convert)
     SpecConverter.start
   end
