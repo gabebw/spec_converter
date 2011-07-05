@@ -47,7 +47,10 @@ class SpecConverter
     new_line = convert_test_unit_methods(new_line)
     new_line = convert_def_setup(new_line)
     new_line = convert_assert(new_line)
+
+    # Shoulda
     new_line = convert_shoulda_active_record(new_line)
+    new_line = convert_shoulda_setup(new_line)
 
     leading_space + new_line
   end
@@ -103,6 +106,11 @@ class SpecConverter
 
   def convert_shoulda_active_record(line)
     line.gsub!(/^(should #{RE_SHOULDA_ACTIVE_RECORD}.*)$/, 'it { \1 }')
+    line
+  end
+
+  def convert_shoulda_setup(line)
+    line.gsub!(/^setup (\{|do)/, 'before \1')
     line
   end
 end

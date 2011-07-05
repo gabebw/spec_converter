@@ -200,3 +200,22 @@ describe SpecConverter, "#convert_shoulda_active_record" do
        end
      end
 end
+
+describe SpecConverter, "#convert_shoulda_setup" do
+  let(:converter){ SpecConverter.new }
+
+  it "converts an inline setup block to a before block" do
+    result = converter.convert_shoulda_setup("setup { @user = User.new(:name => 'John') }")
+    result.should == "before { @user = User.new(:name => 'John') }"
+  end
+
+  it "converts a multiline setup block using braces to a before block" do
+    result = converter.convert_shoulda_setup("setup {")
+    result.should == "before {"
+  end
+
+  it "converts a multiline setup block using do...end to a before block" do
+    result = converter.convert_shoulda_setup("setup do")
+    result.should == "before do"
+  end
+end
