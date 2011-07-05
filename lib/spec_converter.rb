@@ -101,6 +101,9 @@ class SpecConverter
     line.gsub!(/^assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)(,\s*(?:['"]|%[Qq]).+)?$/,
                '\2.should == \1\3' )
 
+    line.gsub!(/^assert_kind_of\s+([^\s]+),\s*([^,"]+)(,\s*(?:['"]|%[Qq]).+)?$/,
+               '\2.should be_a_kind_of \1\3' )
+
     line
   end
 

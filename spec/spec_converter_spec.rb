@@ -162,8 +162,13 @@ describe SpecConverter, "#convert_assert" do
   it "replaces assert_not_nil with 'should_not be_nil" do
     converter.convert_assert(%[assert_not_nil foo]).should == %[foo.should_not be_nil]
   end
+
   it "replaces 'assert foo > 20' with 'foo.should > 20'" do
     converter.convert_assert(%[assert foo > 20]).should == %[foo.should > 20]
+  end
+
+  it "replaces assert_kind_of with 'should be_a_kind_of'" do
+    converter.convert_assert(%[assert_kind_of Hash, foo, "No options given"]).should == %[foo.should be_a_kind_of Hash, "No options given"]
   end
 end
 
