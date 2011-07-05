@@ -144,6 +144,10 @@ describe SpecConverter, "#convert_assert" do
     converter.convert_assert(%[assert_equal "$1,490.00", x["price"]\n]).should == %[x["price"].should == "$1,490.00"\n]
   end
 
+  it "replaces assert_not_equal with 'should_not =='" do
+    converter.convert_assert(%[assert_not_equal "$1,490.00", x["price"]\n]).should == %[x["price"].should_not == "$1,490.00"\n]
+  end
+
   it "keeps messages" do
     converter.convert_assert(%[assert_equal "$1,490.00", x["price"], "my message here"\n]).should == %[x["price"].should == "$1,490.00", "my message here"\n]
   end
