@@ -60,12 +60,12 @@ describe SpecConverter, "#convert_rspec_old_style_names" do
   end
 
   it "replaces 'specify' with 'it'" do
-    converter.convert_rspec_old_style_names(%[    specify "remember me saves the user" do]).should == %[    it "remember me saves the user" do]
+    converter.convert_rspec_old_style_names(%[specify "remember me saves the user" do]).should == %[it "remember me saves the user" do]
   end
 
   it "ignores unrelated uses of 'specify'" do
     comment = %[# I like to specify things]
-    user_should = %[  @user.should.specify.stuff]
+    user_should = %[@user.should.specify.stuff]
     converter.convert_rspec_old_style_names(comment).should == comment
     converter.convert_rspec_old_style_names(user_should).should == user_should
   end
@@ -111,17 +111,8 @@ describe SpecConverter, "#convert_test_unit_methods" do
     converter.convert_test_unit_methods(%[def test_something]).should == %[it "something" do]
   end
 
-  it "replaces a 'test_something' method with an it block even with leading whitespace" do
-    space = ' ' * 3
-    converter.convert_test_unit_methods(space + %[def test_something_here]).should == (space + %[it "something here" do])
-  end
-
   it "ignores unrelated lines" do
     converter.convert_test_unit_methods(%[def foo]).should == %[def foo]
-  end
-
-  it "ignores unrelated lines with leading whitespace" do
-    converter.convert_test_unit_methods(%[   def foo]).should == %[   def foo]
   end
 end
 

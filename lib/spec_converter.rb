@@ -34,6 +34,7 @@ class SpecConverter
 
   def convert_line(line)
     new_line = line.dup
+    leading_space = new_line.slice!(/^\s*/)
 
     new_line = convert_rspec_old_style_names(new_line)
     new_line = convert_dust_style(new_line)
@@ -42,16 +43,16 @@ class SpecConverter
     new_line = convert_def_setup(new_line)
     new_line = convert_assert(new_line)
 
-    new_line
+    leading_space + new_line
   end
 
   def convert_def_setup(line)
-    line.gsub!(/(^\s*)def setup(\s*)$/, '\1before do\2')
+    line.gsub!(/^def setup(\s*)$/, 'before do\1')
     line
   end
 
   def convert_rspec_old_style_names(line)
-    line.gsub!(/(^\s*)specify(\s.*do)/, '\1it\2')
+    line.gsub!(/^specify(\s.*do)/, 'it\1')
     line
   end
 
@@ -65,33 +66,35 @@ class SpecConverter
   end
 
   def convert_test_unit_methods(line)
-    line.gsub!(/(^\s*)def\s*test_([\w_!?,$]+)/) do
-      %{#{$1}it "#{$2.split('_').join(' ')}" do}
+    line.gsub!(/^def\s*test_([\w_!?,$]+)/) do
+      %{it "#{$1.split('_').join(' ')}" do}
     end
 
     line
   end
 
   def convert_dust_style(line)
-    line.gsub!(/(^\s*)test(\s.*do)/, '\1it\2')
+    line.gsub!(/^test(\s.*do)/, 'it\1')
     line
   end
 
   def convert_assert(line)
-    leading_space = line.slice!(/^\s*/)
-
-    line.gsub!(/assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)$/,
+    line.gsub!(/^assert\s+([^\s]*)\s*([<=>~]+)\s*(.*)$/,
                '\1.should \2 \3' )
-    line.gsub!(/assert\s+\!(.*)$/,
+    line.gsub!(/^assert\s+\!(.*)$/,
                '\1.should_not be' )
-    line.gsub!(/assert_not_nil\s+(.*)$/,
+    line.gsub!(/^assert_not_nil\s+(.*)$/,
                '\1.should_not be_nil' )
-    line.gsub!(/assert\s+(.*)$/,
+    line.gsub!(/^assert\s+(.*)$/,
                '\1.should be' )
-    line.gsub!(/assert_(nil|true|false)\s+(.*)$/,
+    line.gsub!(/^assert_(nil|true|false)\s+(.*)$/,
                '\2.should be_\1' )
-    line.gsub!(/assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)(,\s*(?:['"]|%[Qq]).+)?$/,
+    line.gsub!(/^assert_equal\s+("[^"]+"|[^,]+),\s*("[^"]+"|[^,\n]+)(,\s*(?:['"]|%[Qq]).+)?$/,
                '\2.should == \1\3' )
-    (leading_space + line)
+
+    line
+  end
+
+  def convert_shoulda(line)
   end
 end
